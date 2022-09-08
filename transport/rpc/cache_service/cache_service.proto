@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option go_package = "github.com/swagftw/cache-service/transport/rpc";
+
+message GetRequest {
+  string key = 1;
+}
+
+message GetResponse {
+  string value = 1;
+}
+
+message SetRequest {
+  string key = 1;
+  string value = 2;
+}
+
+message SetResponse {
+  string message = 1;
+}
+
+// CacheService proto caching service
+service CacheService {
+  rpc GetValue(GetRequest) returns (GetResponse) {}
+  rpc SetValue(SetRequest) returns (SetResponse) {}
+}

@@ -1,0 +1,8 @@
+server:
+  timeout: 15
+  port: 8080
+  env: stag
+  log_level: debug
+
+redis:
+  port: 6379
