@@ -2,7 +2,6 @@ package rpc
 
 import (
 	"fmt"
-	"github.com/swagftw/cache-service/utl/storage/redis"
 	"log"
 	"net"
 	"os"
@@ -15,8 +14,8 @@ import (
 	cs "github.com/swagftw/cache-service/pkg/cacheService"
 	rr "github.com/swagftw/cache-service/pkg/cacheService/repository/redis"
 	cacheServiceRPC "github.com/swagftw/cache-service/transport/rpc/cache_service"
-
 	"github.com/swagftw/cache-service/utl/config"
+	"github.com/swagftw/cache-service/utl/storage/redis"
 )
 
 func Start(configPath string) {
@@ -53,7 +52,7 @@ func Start(configPath string) {
 		interrupt <- syscall.SIGTERM
 	}()
 
-	// waits for interrupt signal to gracefully shutdown the server with a timeout of 5 seconds.
+	// waits for interrupt signal to gracefully shut down the server with a timeout of 5 seconds.
 	if <-interrupt; true {
 		log.Println("Shutting down gRPC server...")
 		grpcServer.GracefulStop()
