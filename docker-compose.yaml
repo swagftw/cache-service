@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  cache-server:
+    build: .
+    image: cache-server:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - REDIS_HOST=redis
+    links:
+      - redis
+    depends_on:
+      - redis
+    networks:
+      - cache-network
+
+  redis:
+    image: redis:latest
+    restart: always
+    networks:
+      - cache-network
+
+networks:
+  cache-network:
+    driver: bridge
