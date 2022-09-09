@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.12.4
-// source: transport/rpc/cache_service.proto
+// source: transport/rpc_server/cache_service.proto
 
-package cache_service
+package cacheService
 
 import (
 	context "context"
@@ -137,5 +137,5 @@ var CacheService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "transport/rpc/cache_service.proto",
+	Metadata: "transport/rpc_server/cache_service.proto",
 }

@@ -20,17 +20,16 @@ type Server struct {
 }
 
 type Redis struct {
-	Host          string `yaml:"host"`
-	Port          int    `yaml:"port"`
-	Password      string `yaml:"password"`
-	DB            int    `yaml:"db"`
-	TTL           int    `yaml:"ttl"`
-	MaxMemorySize int    `yaml:"max_memory_size"`
-	CacheStrategy string `yaml:"cache_strategy"`
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	Password string `yaml:"password"`
+	DB       int    `yaml:"db"`
+	Timeout  int    `yaml:"timeout"`
+	TTL      int    `yaml:"ttl"`
 }
 
 // InitConfig initializes config
-// this is temporary solution, in future use viper, and make getter setters over config struct
+// this is temporary solution, in future use viper, and make getter setters over config struct.
 func InitConfig(configPath string) *Config {
 	file, err := os.ReadFile(configPath)
 	if err != nil {
@@ -38,6 +37,7 @@ func InitConfig(configPath string) *Config {
 	}
 
 	cfg := new(Config)
+
 	err = yaml.Unmarshal(file, cfg)
 	if err != nil {
 		log.Fatalf("Failed to unmarshal config file: %v\n", err)

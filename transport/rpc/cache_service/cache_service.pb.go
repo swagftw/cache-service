@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.28.1
 // 	protoc        v3.12.4
-// source: transport/rpc/cache_service.proto
+// source: transport/rpc_server/cache_service.proto
 
-package cache_service
+package cacheService
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
