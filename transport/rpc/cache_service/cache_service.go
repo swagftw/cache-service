@@ -1,7 +1,8 @@
-package cache_service
+package cacheService
 
 import (
 	"context"
+
 	"github.com/swagftw/cache-service/types"
 )
 
@@ -19,13 +20,23 @@ func NewCacheServiceSrv(cacheService types.CacheService) CacheServiceServer {
 }
 
 func (c CacheServiceSrv) GetValue(ctx context.Context, request *GetRequest) (*GetResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	data, err := c.CacheService.Get(ctx, request.Key)
+	if err != nil {
+		return nil, err
+	}
+
+	return &GetResponse{
+		Value: string(data),
+	}, nil
 }
 
 func (c CacheServiceSrv) SetValue(ctx context.Context, request *SetRequest) (*SetResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	err := c.CacheService.Set(ctx, request.Key, []byte(request.Value))
+	if err != nil {
+		return nil, err
+	}
+
+	return &SetResponse{Message: "ok"}, nil
 }
 
 func (c CacheServiceSrv) mustEmbedUnimplementedCacheServiceServer() {

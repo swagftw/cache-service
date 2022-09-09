@@ -2,6 +2,7 @@ package rpc
 
 import (
 	"fmt"
+	"github.com/swagftw/cache-service/utl/storage/redis"
 	"log"
 	"net"
 	"os"
@@ -11,12 +12,17 @@ import (
 
 	"google.golang.org/grpc"
 
-	cacheService "github.com/swagftw/cache-service/transport/rpc/cache_service"
+	cs "github.com/swagftw/cache-service/pkg/cacheService"
+	rr "github.com/swagftw/cache-service/pkg/cacheService/repository/redis"
+	cacheServiceRPC "github.com/swagftw/cache-service/transport/rpc/cache_service"
+
 	"github.com/swagftw/cache-service/utl/config"
 )
 
 func Start(configPath string) {
 	cfg := config.InitConfig(configPath)
+
+	redisDB := redis.InitRedisDB(cfg)
 
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", cfg.Server.Port))
 	if err != nil {
@@ -27,8 +33,8 @@ func Start(configPath string) {
 	grpcServer := grpc.NewServer(grpc.ConnectionTimeout(time.Duration(cfg.Server.Timeout) * time.Second))
 
 	// creates new cache service server
-	cacheServiceServer := cacheService.NewCacheServiceSrv(nil)
-	cacheService.RegisterCacheServiceServer(grpcServer, cacheServiceServer)
+	cacheServiceServer := cacheServiceRPC.NewCacheServiceSrv(cs.InitCacheService(rr.InitRedisRepo(redisDB, cfg)))
+	cacheServiceRPC.RegisterCacheServiceServer(grpcServer, cacheServiceServer)
 
 	// check for interrupt signal
 	interrupt := make(chan os.Signal, 1)
